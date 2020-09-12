@@ -1,7 +1,6 @@
 .table {
-    margin: auto;
+    margin: 0 auto 50px auto;
     text-align: center;
-
 }
 
 .table thead {
@@ -17,15 +16,37 @@
     position: relative;
 }
 
-.editIcon {
-    position: absolute;
-    right: 20px;
+.table td:hover {
+    background-color: #353f47;
+}
+
+.icon {
     height: 20px;
     width: 20px;
 }
 
-.table td:hover{
-    background-color: #353f47;
+.icon:hover {
+    height: 21px;
+    width: 21px;
+}
+
+.editIcon {
+    position: absolute;
+    right: 10px;
+}
+
+.saveIcon {
+    position: absolute;
+    right: 32px;
+}
+
+.disableIcon {
+    opacity: 0.3;
+}
+
+.closeIcon {
+    position: absolute;
+    right: 5px;
 }
 
 .editInput {

@@ -1,5 +1,4 @@
 import React from "react";
-//import styles from "../CurrencyTable.module.css"
 import EditableTd from "./EditableTd/EditableTd";
 
 function TableRow({id, ccy, base_ccy, buy, sale, editCurrency}) {

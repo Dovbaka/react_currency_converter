@@ -9,18 +9,21 @@ function CurrencyTable(props) {
                                                                   ccy={el.ccy} base_ccy={el.base_ccy}
                                                                   buy={el.buy} sale={el.sale}/>));
 
-    return <Table bordered variant="dark" className={styles.table}>
-        <thead>
-        <tr>
-            <th>Currency/Current Date</th>
-            <th>Buy</th>
-            <th>Sell</th>
-        </tr>
-        </thead>
-        <tbody>
-        {TableItems}
-        </tbody>
-    </Table>
+    return <div className={styles.table}>
+        <Table bordered variant="dark">
+            <thead>
+            <tr>
+                <th>Currency/Current Date</th>
+                <th>Buy</th>
+                <th>Sell</th>
+            </tr>
+            </thead>
+            <tbody>
+            {TableItems}
+            </tbody>
+        </Table>
+    </div>
+
 }
 
 export default CurrencyTable;

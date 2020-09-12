@@ -1,0 +1,51 @@
+.converter {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.labels {
+    color: white;
+}
+
+.swapCurrencyIcon {
+    width: 30px;
+    margin: 0 20px;
+}
+
+.swapCurrencyIcon:hover {
+    opacity: 0.8;
+}
+
+.currencyInputField {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #38638d;
+    outline: none;
+    margin: 0 10px;
+    max-width: 180px;
+    font-size: 18pt;
+    color: white;
+}
+
+.currencyInputField::-webkit-outer-spin-button,
+.currencyInputField::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.dropDown {
+    position: relative;
+    max-width: 120px;
+    background: transparent;
+    border: none;
+    color: white;
+    outline: none;
+    font-size: 18pt;
+}
+
+.group {
+    display: inline-block;
+}

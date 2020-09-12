@@ -1,23 +1,33 @@
 import {currencyAPI} from "../api/api";
 
-const CURRENCY_REQUEST = 'TABLE/CURRENCY-REQUEST';
-const EDIT = 'EDIT'
+const SET_CURRENCY = 'TABLE/SET-CURRENCY';
+const SET_CURRENCY_NAMES = 'TABLE/SET-CURRENCY-NAMES';
+const EDIT_CURRENCY = 'TABLE/EDIT-CURRENCY';
 
 let initialState = {
-    currency: []
+    currency: [],
+    currencyNames: [],
+    base: "UAH"
 }
 
 function tableReducer(state = initialState, action) {
 
     switch (action.type) {
-        case CURRENCY_REQUEST: {
+        case SET_CURRENCY: {
             return {
                 ...state,
                 currency: action.currency
             }
         }
 
-        case EDIT:
+        case SET_CURRENCY_NAMES: {
+            return {
+                ...state,
+                currencyNames: state.currency.map(el => el.ccy).concat([state.base])
+            }
+        }
+
+        case EDIT_CURRENCY:
             return {
                 ...state,
                 currency: state.currency.map(value => {
@@ -39,15 +49,21 @@ function tableReducer(state = initialState, action) {
 export const actions = {
     setCurrency: function setCurrency(currency) {
         return {
-            type: CURRENCY_REQUEST,
+            type: SET_CURRENCY,
             currency
+        }
+    },
+
+    setCurrencyNames: function setCurrencyNames() {
+        return {
+            type: SET_CURRENCY_NAMES
         }
     },
 }
 
 export function editCurrency(id, value, collumName) {
     return {
-        type: EDIT,
+        type: EDIT_CURRENCY,
         id,
         value,
         collumName
@@ -59,8 +75,8 @@ export const requestCurrency = () => async (dispatch) => {
     response.data.forEach((item, i) => {
         item.id = i + 1;
     });
-    console.log(response); //LOG
     dispatch(actions.setCurrency(response.data));
+    dispatch(actions.setCurrencyNames());
 }
 
 export default tableReducer;
