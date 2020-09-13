@@ -6,6 +6,7 @@ import {Container} from "react-bootstrap";
 import Header from "./components/Header/Header";
 import CurrencyTableContainer from "./components/CurrencyTable/CurrencyTableContainer";
 import CurrencyConverterContainer from "./components/CurrencyConverter/CurrencyConverterContainer";
+import Footer from "./components/Footer/Footer";
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
                     <CurrencyTableContainer/>
                     <CurrencyConverterContainer/>
                 </Container>
+                <Footer/>
             </Provider>
         </div>
     );

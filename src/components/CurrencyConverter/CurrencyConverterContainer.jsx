@@ -13,7 +13,8 @@ const mapStateToProps = (state) => {
     return {
         currency: state.currencyTable.currency,
         currencyNames: state.currencyTable.currencyNames,
-        base: state.currencyTable.base
+        base: state.currencyTable.base[0],
+        base2: state.currencyTable.base[1]
     }
 };
 

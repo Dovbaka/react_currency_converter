@@ -6,7 +6,8 @@ function CurrencyInputField(props) {
 
     return (
         <div>
-            <input type="number" className={styles.currencyInputField}/>
+            <input type="number" className={styles.currencyInputField}
+                   value={props.amount} onChange={props.onChangeAmount}/>
             <Form.Group className={styles.group}>
 
                 <Form.Control as="select" className={styles.dropDown} value={props.selectedCurrency}

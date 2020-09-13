@@ -7,7 +7,21 @@ function CurrencyConverter(props) {
 
     const [fromCurrency, setFromCurrency] = useState();
     const [toCurrency, setToCurrency] = useState();
-    let exchangeRate = 1;
+    const [amount, setAmount] = useState(1);
+    const [amountInFromCurrency, setAmountInFromCurrency] = useState(true);
+    const [exchangeRate, setExchangeRate] = useState(1)
+    let toAmount, fromAmount;
+
+    if (amountInFromCurrency) {
+        fromAmount = amount
+        const newAmount = amount * exchangeRate;
+        newAmount % 1 !== 0 ? toAmount = Number(newAmount.toFixed(6)) : toAmount = newAmount
+
+    } else {
+        toAmount = amount
+        const newAmount = amount / exchangeRate;
+        newAmount % 1 !== 0 ? fromAmount = Number(newAmount.toFixed(6)) : fromAmount = newAmount
+    }
 
     useEffect(() => {
         setFromCurrency(props.base);
@@ -16,44 +30,97 @@ function CurrencyConverter(props) {
 
     useEffect(() => {
         onRateChange()
-    }, [fromCurrency, toCurrency])
+    }, [fromCurrency, toCurrency, props.currency])
 
     const onRateChange = () => {
-        if (fromCurrency === props.base) {
+
+        if (fromCurrency === toCurrency) {
+            setExchangeRate(1)
+        }
+
+        if (fromCurrency === props.base && toCurrency !== props.base) {
             props.currency.forEach(value => {
                 if (toCurrency === value.ccy) {
-                    exchangeRate = Number(1/value.buy);
+                    if (value.base_ccy === props.base) {
+                        setExchangeRate(Number(1 / value.buy))
+                    } else {
+                        props.currency.forEach(value2 => {
+                            if(value2.ccy === props.base2) setExchangeRate(1/(value.buy*value2.buy));
+                        })
+                    }
                 }
             })
         }
 
-        if (toCurrency === props.base) {
+        if (toCurrency === props.base && fromCurrency !== props.base) {
             props.currency.forEach(value => {
                 if (fromCurrency === value.ccy) {
-                    exchangeRate = Number(value.buy);
+                    if (value.base_ccy === props.base) {
+                        setExchangeRate(Number(value.buy))
+                    } else {
+                        props.currency.forEach(value2 => {
+                            if(value2.ccy === props.base2) setExchangeRate(value.buy*value2.buy);
+                        })
+                    }
                 }
             })
         }
+
         props.currency.forEach(value => {
             props.currency.forEach(value2 => {
                 if (toCurrency === value.ccy && fromCurrency === value2.ccy) {
-                    exchangeRate = value2.buy / value.buy;
+                    if (value.base_ccy === props.base && value2.base_ccy === props.base) {
+                        setExchangeRate(value2.buy / value.buy);
+                    } else {
+                        if (value2.base_ccy !== props.base) {
+                            props.currency.forEach(value3 => {
+                                if(value3.ccy === props.base2)
+                                    setExchangeRate((value3.buy*value2.buy)/value.buy);
+                            })
+                        }
+                        if (value.base_ccy !== props.base) {
+                            props.currency.forEach(value3 => {
+                                if(value3.ccy === props.base2) //console.log("v1 ", value.buy, "v2 ", value2.buy, "v3 ", value3.buy)
+                                    setExchangeRate(1/((value3.buy*value.buy)/value2.buy));
+                            })
+                        }
+                    }
                 }
             })
         })
-        console.log(exchangeRate)
+    }
+
+    function handleFromAmountChange(e) {
+        setAmount(e.target.value)
+        setAmountInFromCurrency(true)
+    }
+
+    function handleToAmountChange(e) {
+        setAmount(e.target.value)
+        setAmountInFromCurrency(false)
+    }
+
+    function onSwapCurrencyClick() {
+        setFromCurrency(toCurrency);
+        setToCurrency(fromCurrency);
     }
 
 
     return <div className={styles.converter}>
-        <CurrencyInputField currencyNames={props.currencyNames} selectedCurrency={fromCurrency}
+        <CurrencyInputField currencyNames={props.currencyNames}
+                            selectedCurrency={fromCurrency}
+                            amount={fromAmount}
+                            onChangeAmount={handleFromAmountChange}
                             onChangeCurrency={(e) => {
                                 setFromCurrency(e.currentTarget.value);
                             }}/>
 
-        <img src={swapIcon} className={styles.swapCurrencyIcon} alt={"swap"} onClick={onRateChange}/>
+        <img src={swapIcon} className={styles.swapCurrencyIcon} alt={"swap"} onClick={onSwapCurrencyClick}/>
 
-        <CurrencyInputField currencyNames={props.currencyNames} selectedCurrency={toCurrency}
+        <CurrencyInputField currencyNames={props.currencyNames}
+                            selectedCurrency={toCurrency}
+                            amount={toAmount}
+                            onChangeAmount={handleToAmountChange}
                             onChangeCurrency={(e) => {
                                 setToCurrency(e.currentTarget.value)
                             }}/>

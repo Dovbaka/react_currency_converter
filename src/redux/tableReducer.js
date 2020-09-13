@@ -2,12 +2,14 @@ import {currencyAPI} from "../api/api";
 
 const SET_CURRENCY = 'TABLE/SET-CURRENCY';
 const SET_CURRENCY_NAMES = 'TABLE/SET-CURRENCY-NAMES';
+const SET_CURRENCY_BASE = 'TABLE/SET-CURRENCY-BASE';
 const EDIT_CURRENCY = 'TABLE/EDIT-CURRENCY';
 
 let initialState = {
     currency: [],
     currencyNames: [],
-    base: "UAH"
+    base: [],
+    error: false
 }
 
 function tableReducer(state = initialState, action) {
@@ -23,11 +25,18 @@ function tableReducer(state = initialState, action) {
         case SET_CURRENCY_NAMES: {
             return {
                 ...state,
-                currencyNames: state.currency.map(el => el.ccy).concat([state.base])
+                currencyNames: (state.currency.map(el => el.ccy).concat([state.base[0]]))
             }
         }
 
-        case EDIT_CURRENCY:
+        case SET_CURRENCY_BASE: {
+            return {
+                ...state,
+                base: [...new Set(state.currency.map(el => el.base_ccy))]
+            }
+        }
+
+        case EDIT_CURRENCY: {
             return {
                 ...state,
                 currency: state.currency.map(value => {
@@ -40,6 +49,15 @@ function tableReducer(state = initialState, action) {
                     return value;
                 })
             }
+        }
+
+        case "err": {
+            return {
+                ...state,
+                error: true
+            }
+        }
+
 
         default:
             return state;
@@ -59,6 +77,18 @@ export const actions = {
             type: SET_CURRENCY_NAMES
         }
     },
+
+    setCurrencyBase: function setCurrencyBase() {
+        return {
+            type: SET_CURRENCY_BASE
+        }
+    },
+
+    setError: function () {
+        return {
+            type: "err"
+        }
+    }
 }
 
 export function editCurrency(id, value, collumName) {
@@ -70,13 +100,20 @@ export function editCurrency(id, value, collumName) {
     }
 }
 
-export const requestCurrency = () => async (dispatch) => {
-    const response = await currencyAPI.getCurrency();
-    response.data.forEach((item, i) => {
-        item.id = i + 1;
-    });
-    dispatch(actions.setCurrency(response.data));
-    dispatch(actions.setCurrencyNames());
+export const requestCurrency = (makeError) => async (dispatch) => {
+    try {
+        const response = await currencyAPI.getCurrency(makeError);
+        response.data.forEach((item, i) => {
+            item.id = i + 1;
+        });
+        dispatch(actions.setCurrency(response.data));
+        dispatch(actions.setCurrencyBase());
+        dispatch(actions.setCurrencyNames());
+    } catch (error) {
+        console.log(error);
+        dispatch(actions.setError());
+    }
+
 }
 
 export default tableReducer;

@@ -9,6 +9,7 @@ function CurrencyTable(props) {
                                                                   ccy={el.ccy} base_ccy={el.base_ccy}
                                                                   buy={el.buy} sale={el.sale}/>));
 
+
     return <div className={styles.table}>
         <Table bordered variant="dark">
             <thead>

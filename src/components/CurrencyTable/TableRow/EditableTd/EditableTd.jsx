@@ -12,9 +12,7 @@ function TableRow({id, value, collumName, editCurrency}) {
     const enableSaveIcon = text > value * 0.9 && text < value * 1.1;
 
     const editData = () => {
-        if (text > value * 0.9 && text < value * 1.1) {
-            editCurrency(id, text, collumName);
-        }
+        editCurrency(id, text, collumName);
     }
 
     const onStatusChange = (e) => {
