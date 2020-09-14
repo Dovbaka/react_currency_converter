@@ -4,15 +4,16 @@ const SET_CURRENCY = 'TABLE/SET-CURRENCY';
 const SET_CURRENCY_NAMES = 'TABLE/SET-CURRENCY-NAMES';
 const SET_CURRENCY_BASE = 'TABLE/SET-CURRENCY-BASE';
 const EDIT_CURRENCY = 'TABLE/EDIT-CURRENCY';
+const ERROR = 'TABLE/ERROR'
 
 let initialState = {
-    currency: [],
-    currencyNames: [],
-    base: [],
-    error: false
+    currency: [],  //for array of currencies from response
+    currencyNames: [], //for all currency names (including base)
+    base: [], //for base_ccy (without duplicates)
+    error: false //response error flag to display error message in component
 }
 
-function tableReducer(state = initialState, action) {
+function currencyReducer(state = initialState, action) {
 
     switch (action.type) {
         case SET_CURRENCY: {
@@ -51,7 +52,7 @@ function tableReducer(state = initialState, action) {
             }
         }
 
-        case "err": {
+        case ERROR: {
             return {
                 ...state,
                 error: true
@@ -65,20 +66,20 @@ function tableReducer(state = initialState, action) {
 }
 
 export const actions = {
-    setCurrency: function setCurrency(currency) {
+    setCurrency: function (currency) {
         return {
             type: SET_CURRENCY,
             currency
         }
     },
 
-    setCurrencyNames: function setCurrencyNames() {
+    setCurrencyNames: function () {
         return {
             type: SET_CURRENCY_NAMES
         }
     },
 
-    setCurrencyBase: function setCurrencyBase() {
+    setCurrencyBase: function () {
         return {
             type: SET_CURRENCY_BASE
         }
@@ -86,7 +87,7 @@ export const actions = {
 
     setError: function () {
         return {
-            type: "err"
+            type: ERROR
         }
     }
 }
@@ -106,14 +107,13 @@ export const requestCurrency = (makeError) => async (dispatch) => {
         response.data.forEach((item, i) => {
             item.id = i + 1;
         });
-        dispatch(actions.setCurrency(response.data));
-        dispatch(actions.setCurrencyBase());
-        dispatch(actions.setCurrencyNames());
+        dispatch(actions.setCurrency(response.data)); //setting currency arr
+        dispatch(actions.setCurrencyBase()); //setting all base_ccy (UAH & USD)
+        dispatch(actions.setCurrencyNames()); //setting all currency names
     } catch (error) {
-        console.log(error);
-        dispatch(actions.setError());
+        dispatch(actions.setError()); // setting error flag
     }
 
 }
 
-export default tableReducer;
+export default currencyReducer;

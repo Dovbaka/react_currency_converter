@@ -1,9 +1,9 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
-import tableReducer from "./tableReducer";
+import currencyReducer from "./currencyReducer";
 import thunkMiddleware from "redux-thunk"
 
 let reducers = combineReducers({
-    currencyTable: tableReducer
+    currencyBase: currencyReducer
 })
 
 const store = createStore(reducers, applyMiddleware(thunkMiddleware));
