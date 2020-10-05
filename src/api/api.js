@@ -5,7 +5,7 @@ export const instance = axios.create({
 });
 
 export const currencyAPI = {
-    getCurrency(makeError = "") {
-        return instance.get(`pub${makeError}info?json&exchange&coursid=5`);
+    getCurrency() {
+        return instance.get(`pubinfo?json&exchange&coursid=5`);
     },
 }

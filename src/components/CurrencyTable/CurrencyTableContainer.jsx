@@ -8,18 +8,7 @@ import {editCurrency, requestCurrency} from "../../redux/currencyReducer";
 class CurrencyTableContainer extends React.Component {
 
     componentDidMount() {
-        const localData = localStorage.getItem('Counter');
-        let data = localData ? JSON.parse(localData) : 0;
-        if (data >= 4) {
-            data = 0;
-            localStorage.setItem('Counter', JSON.stringify(data));
-            this.props.requestCurrency("error"); //Simulating error
-        }
-        else {
-            data++;
-            localStorage.setItem('Counter', JSON.stringify(data));
-            this.props.requestCurrency();
-        }
+        this.props.requestCurrency();
     }
 
 

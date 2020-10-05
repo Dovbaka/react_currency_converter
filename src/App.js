@@ -7,11 +7,12 @@ import Header from "./components/Header/Header";
 import CurrencyTableContainer from "./components/CurrencyTable/CurrencyTableContainer";
 import CurrencyConverterContainer from "./components/CurrencyConverter/CurrencyConverterContainer";
 import Footer from "./components/Footer/Footer";
+import styles from "./App.module.css"
 
 function App() {
 
     return (
-        <div className="App">
+        <div className={styles.wrapper}>
             <Provider store={store}>
                 <Header/>
                 <Container>

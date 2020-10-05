@@ -5,11 +5,6 @@ import swapIcon from "../../assets/images/swap.svg"
 
 function CurrencyConverter(props) {
 
-    /*The main problem with converting currencies was that the API returned data with two different bases
-    (USD for BTC and UAH for all others) because of this, I tried to track the moments when the BTC was selected
-     and calculated its exchange rate to UAH and just then to other currencies
-     I'm sure this is not the best solution, but the only one that I came up with*/
-
     const [fromCurrency, setFromCurrency] = useState(); //1st selector option value
     const [toCurrency, setToCurrency] = useState(); //2nd selector option value
     const [amount, setAmount] = useState(1); //input value

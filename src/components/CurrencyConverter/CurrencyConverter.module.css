@@ -1,5 +1,5 @@
 .converter {
-    margin: 0;
+    margin-bottom: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,6 +28,7 @@
     max-width: 180px;
     font-size: 18pt;
     color: white;
+    -moz-appearance:textfield;
 }
 
 .currencyInputField::-webkit-outer-spin-button,
