@@ -1,4 +1,5 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Demo on GitHub Pages
+https://dovbaka.github.io/react_currency_converter/
 
 ## Available Scripts
 
